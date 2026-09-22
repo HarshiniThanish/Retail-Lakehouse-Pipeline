@@ -17,11 +17,7 @@ Reference project: [`anshlambagit/Walmart_Airflow_DBT_Project`](https://github.c
 ##  Table of Contents
 
 - [Architecture](#-architecture)
-- [What's Actually Runnable Here](#-whats-actually-runnable-here)
 - [Project Structure](#-project-structure)
-- [Getting Started](#-getting-started)
-- [The Metadata-Driven OBT (the interesting part)](#-the-metadata-driven-obt-the-interesting-part)
-- [SCD Type 2 Dimensions](#-scd-type-2-dimensions)
 - [Agentic Ad-hoc Querying (MCP)](#-agentic-ad-hoc-querying-mcp)
 - [Pipeline DAG](#-pipeline-dag)
 - [Going to Production](#-going-to-production)
