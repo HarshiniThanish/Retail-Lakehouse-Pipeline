@@ -1,0 +1,9 @@
+customer_id,first_name,last_name,email,phone,signup_date,loyalty_tier,updated_at
+1,Ava,Johnson,ava.johnson@example.com,555-0101,2023-01-15,Gold,2026-01-15 10:00:00
+2,Liam,Smith,liam.smith@example.com,555-0102,2023-02-20,Silver,2026-01-16 11:30:00
+3,Olivia,Williams,olivia.williams@example.com,555-0103,2023-03-05,Bronze,2026-01-17 09:15:00
+4,Noah,Brown,noah.brown@example.com,555-0104,2023-04-10,Gold,2026-01-18 14:45:00
+5,Emma,Jones,emma.jones@example.com,555-0105,2023-05-22,Silver,2026-01-19 08:20:00
+6,Elijah,Garcia,elijah.garcia@example.com,555-0106,2023-06-30,Bronze,2026-01-20 13:10:00
+7,Charlotte,Miller,charlotte.miller@example.com,555-0107,2023-07-14,Gold,2026-01-21 16:05:00
+8,James,Davis,james.davis@example.com,555-0108,2023-08-19,Silver,2026-01-22 12:40:00

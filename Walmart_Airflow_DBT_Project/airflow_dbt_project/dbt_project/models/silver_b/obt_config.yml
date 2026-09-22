@@ -1,0 +1,32 @@
+# ---------------------------------------------------------------------------
+# This is documentation of the metadata dictionary consumed by the
+# `generate_obt()` macro (see macros/generate_obt.sql). The live version of
+# this dictionary is injected via the `obt_config` var in dbt_project.yml so
+# it can be swapped/extended without touching any .sql file.
+# ---------------------------------------------------------------------------
+# vars:
+#   obt_config:
+#     base: {ref: stg_orders, alias: o}
+#     joins:
+#       - {ref: stg_customers,   alias: c,  type: left,  on: "o.customer_id = c.customer_id"}
+#       - {ref: stg_stores,      alias: s,  type: left,  on: "o.store_id = s.store_id"}
+#       - {ref: stg_employees,   alias: e,  type: left,  on: "o.employee_id = e.employee_id"}
+#       - {ref: stg_order_items, alias: oi, type: inner, on: "o.order_id = oi.order_id"}
+#       - {ref: stg_products,    alias: p,  type: left,  on: "oi.product_id = p.product_id"}
+#     columns:
+#       - {expr: "o.order_id",       alias: order_id}
+#       - {expr: "o.order_date",     alias: order_date}
+#       - {expr: "o.order_status",   alias: order_status}
+#       - {expr: "c.customer_id",    alias: customer_id}
+#       - {expr: "c.first_name",     alias: customer_first_name}
+#       - {expr: "c.last_name",      alias: customer_last_name}
+#       - {expr: "s.store_id",       alias: store_id}
+#       - {expr: "s.store_name",     alias: store_name}
+#       - {expr: "e.employee_id",    alias: employee_id}
+#       - {expr: "oi.order_item_id", alias: order_item_id}
+#       - {expr: "oi.quantity",      alias: quantity}
+#       - {expr: "oi.unit_price",    alias: unit_price}
+#       - {expr: "oi.line_amount",   alias: line_amount}
+#       - {expr: "p.product_id",     alias: product_id}
+#       - {expr: "p.product_name",   alias: product_name}
+#       - {expr: "p.category",       alias: product_category}

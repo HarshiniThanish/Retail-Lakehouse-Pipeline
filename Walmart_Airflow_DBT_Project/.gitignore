@@ -1,0 +1,28 @@
+# --- Secrets / local env ---
+.env
+airflow_dbt_project/.env
+**/profiles.yml
+*.pem
+*.key
+
+# --- dbt ---
+target/
+dbt_packages/
+logs/
+.dbt/
+
+# --- Airflow ---
+airflow_dbt_project/logs/
+airflow_dbt_project/airflow.db
+airflow_dbt_project/airflow-webserver.pid
+airflow_dbt_project/standalone_admin_password.txt
+
+# --- Docker / OS ---
+docker-compose.override.yml
+.DS_Store
+__pycache__/
+*.pyc
+
+# --- Editors ---
+.vscode/
+.idea/

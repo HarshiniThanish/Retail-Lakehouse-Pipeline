@@ -1,0 +1,21 @@
+version: 2
+
+models:
+  - name: fact_orders
+    description: "Order-line grain fact table with additive measures and dimensional FKs."
+    columns:
+      - name: order_item_id
+        tests: [unique, not_null]
+      - name: order_id
+        tests: [not_null]
+      - name: customer_id
+        tests:
+          - relationships:
+              to: ref('obt')
+              field: customer_id
+      - name: quantity
+        tests:
+          - dbt_utils.accepted_range: {min_value: 0, inclusive: false}
+      - name: line_amount
+        tests:
+          - dbt_utils.accepted_range: {min_value: 0, inclusive: false}

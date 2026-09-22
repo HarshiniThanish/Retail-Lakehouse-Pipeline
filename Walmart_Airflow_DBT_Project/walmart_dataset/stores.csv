@@ -1,0 +1,6 @@
+store_id,store_name,city,state,region,store_type,opened_date,updated_at
+101,Walmart Supercenter Dallas,Dallas,TX,South,Supercenter,2010-03-01,2026-01-10 09:00:00
+102,Walmart Neighborhood Market Austin,Austin,TX,South,Neighborhood Market,2015-06-15,2026-01-10 09:05:00
+103,Walmart Supercenter Chicago,Chicago,IL,Midwest,Supercenter,2008-11-20,2026-01-10 09:10:00
+104,Walmart Supercenter Atlanta,Atlanta,GA,South,Supercenter,2012-09-05,2026-01-10 09:15:00
+105,Walmart Neighborhood Market Phoenix,Phoenix,AZ,West,Neighborhood Market,2018-01-30,2026-01-10 09:20:00

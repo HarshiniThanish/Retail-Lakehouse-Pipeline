@@ -1,0 +1,5 @@
+review_id,product_id,customer_id,rating,review_text,review_date
+1,9004,1,5,"Sound quality is fantastic, battery lasts all day.",2026-02-03
+2,9008,5,4,"Powerful mixer, a bit heavy but worth it.",2026-02-06
+3,9005,4,3,"Fit runs slightly small, order a size up.",2026-02-04
+4,9007,7,5,"Classic family game night favorite.",2026-02-07

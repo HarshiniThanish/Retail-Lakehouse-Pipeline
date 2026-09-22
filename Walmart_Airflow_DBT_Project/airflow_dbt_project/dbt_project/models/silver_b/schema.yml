@@ -1,0 +1,14 @@
+version: 2
+
+models:
+  - name: obt
+    description: "Metadata-driven One Big Table, joined dynamically via generate_obt()."
+    columns:
+      - name: order_id
+        tests: [not_null]
+      - name: customer_id
+        tests: [not_null]
+      - name: order_item_id
+        tests: [not_null, unique]
+      - name: product_id
+        tests: [not_null]

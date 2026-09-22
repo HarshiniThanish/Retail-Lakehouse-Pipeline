@@ -1,0 +1,72 @@
+version: "3.8"
+
+x-airflow-common: &airflow-common
+  build:
+    context: .
+    dockerfile: docker/Dockerfile
+  env_file: .env
+  environment:
+    AIRFLOW__CORE__EXECUTOR: LocalExecutor
+    AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/airflow
+    AIRFLOW__CORE__LOAD_EXAMPLES: "false"
+  volumes:
+    - ./dags:/opt/airflow/dags
+    - ./dbt_project:/opt/airflow/dbt_project
+    - ./ingestion:/opt/airflow/ingestion
+    - airflow_logs:/opt/airflow/logs
+  depends_on:
+    - postgres
+    - redis
+
+services:
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: airflow
+      POSTGRES_PASSWORD: airflow
+      POSTGRES_DB: airflow
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
+
+  # Simulated "Ghost" operational Postgres source (separate from Airflow's metadata DB)
+  source_db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: walmart_app
+      POSTGRES_PASSWORD: changeme
+      POSTGRES_DB: walmart_ops
+    volumes:
+      - source_db_data:/var/lib/postgresql/data
+      - ../walmart_dataset:/docker-entrypoint-initdb.d/walmart_dataset
+      - ./seed:/docker-entrypoint-initdb.d
+    ports:
+      - "5434:5432"
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+
+  webserver:
+    <<: *airflow-common
+    command: webserver
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+      - redis
+      - scheduler
+
+  scheduler:
+    <<: *airflow-common
+    command: scheduler
+    depends_on:
+      - postgres
+      - redis
+
+volumes:
+  postgres_data:
+  source_db_data:
+  airflow_logs:

@@ -1,0 +1,7 @@
+employee_id,first_name,last_name,store_id,role,hire_date,is_active,updated_at
+501,Sophia,Martinez,101,Store Manager,2015-04-01,true,2026-01-08 08:00:00
+502,Mason,Rodriguez,101,Cashier,2019-07-12,true,2026-01-08 08:05:00
+503,Isabella,Hernandez,102,Cashier,2020-02-18,true,2026-01-08 08:10:00
+504,Ethan,Lopez,103,Department Lead,2017-09-25,true,2026-01-08 08:15:00
+505,Mia,Gonzalez,104,Cashier,2021-05-30,true,2026-01-08 08:20:00
+506,Lucas,Wilson,105,Store Manager,2016-11-11,true,2026-01-08 08:25:00

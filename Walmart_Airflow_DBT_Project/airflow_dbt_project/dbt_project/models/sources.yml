@@ -1,0 +1,19 @@
+version: 2
+
+sources:
+  - name: bronze
+    database: "{{ env_var('DATABRICKS_CATALOG', 'Walmart') }}"
+    schema: bronze
+    loaded_at_field: updated_at
+    freshness:
+      warn_after: {count: 24, period: hour}
+      error_after: {count: 48, period: hour}
+    tables:
+      - name: customers
+      - name: stores
+      - name: products
+      - name: employees
+      - name: orders
+      - name: order_items
+      - name: reviews
+        description: "Landed via Databricks Auto Loader from S3 (streaming)."

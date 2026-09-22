@@ -1,0 +1,27 @@
+{
+  "mcpServers": {
+    "walmart_postgres_sandbox": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-postgres",
+        "postgresql://walmart_app:${PG_PASSWORD}@${PG_HOST}:${PG_PORT}/${PG_FORK_DB}"
+      ],
+      "description": "Read/write access limited to the sandboxed Postgres FORK, never production."
+    },
+    "walmart_databricks": {
+      "command": "npx",
+      "args": ["-y", "@databricks/mcp-server-databricks"],
+      "env": {
+        "DATABRICKS_HOST": "${DATABRICKS_HOST}",
+        "DATABRICKS_TOKEN": "${DATABRICKS_TOKEN}"
+      },
+      "description": "Ad-hoc SQL against Unity Catalog (Walmart.bronze / silver_t / silver_b / gold)."
+    }
+  },
+  "notes": [
+    "Connect this file in VS Code's MCP settings (or Claude Desktop) to enable natural-language ad-hoc querying.",
+    "The postgres server MUST point at PG_FORK_DB, never PG_DB, to guarantee production tables can't be mutated from chat.",
+    "Run `python ingestion/db_fork.py create` to refresh the sandbox fork before an exploration session."
+  ]
+}

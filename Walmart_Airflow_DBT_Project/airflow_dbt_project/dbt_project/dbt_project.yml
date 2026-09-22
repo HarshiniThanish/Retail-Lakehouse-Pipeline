@@ -1,0 +1,75 @@
+name: 'walmart_lakehouse'
+version: '1.0.0'
+config-version: 2
+
+profile: 'walmart_lakehouse'
+
+model-paths: ["models"]
+snapshot-paths: ["snapshots"]
+macro-paths: ["macros"]
+seed-paths: ["seeds"]
+test-paths: ["tests"]
+
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+models:
+  walmart_lakehouse:
+    silver_t:
+      +schema: silver_t
+      +materialized: incremental
+      +on_schema_change: append_new_columns
+    silver_b:
+      +schema: silver_b
+      +materialized: table
+    gold:
+      +schema: gold
+      eph_customers:
+        +materialized: ephemeral
+        +tags: ["gold_ephemeral"]
+      eph_orders:
+        +materialized: ephemeral
+        +tags: ["gold_ephemeral"]
+      fact_orders:
+        +materialized: incremental
+        +unique_key: order_item_id
+
+snapshots:
+  walmart_lakehouse:
+    +target_schema: gold
+    +strategy: timestamp
+    +updated_at: updated_at
+
+# ---------------------------------------------------------------------------
+# `obt_config` drives the entire Silver Business OBT join graph via the
+# generate_obt() macro (macros/generate_obt.sql). Add a new table to the
+# OBT by editing this dictionary — no SQL changes required.
+# See models/silver_b/obt_config.yml for a documented, commented copy.
+# ---------------------------------------------------------------------------
+vars:
+  obt_config:
+    base: {ref: stg_orders, alias: o}
+    joins:
+      - {ref: stg_customers,   alias: c,  type: left,  on: "o.customer_id = c.customer_id"}
+      - {ref: stg_stores,      alias: s,  type: left,  on: "o.store_id = s.store_id"}
+      - {ref: stg_employees,   alias: e,  type: left,  on: "o.employee_id = e.employee_id"}
+      - {ref: stg_order_items, alias: oi, type: inner, on: "o.order_id = oi.order_id"}
+      - {ref: stg_products,    alias: p,  type: left,  on: "oi.product_id = p.product_id"}
+    columns:
+      - {expr: "o.order_id",       alias: order_id}
+      - {expr: "o.order_date",     alias: order_date}
+      - {expr: "o.order_status",   alias: order_status}
+      - {expr: "c.customer_id",    alias: customer_id}
+      - {expr: "c.first_name",     alias: customer_first_name}
+      - {expr: "c.last_name",      alias: customer_last_name}
+      - {expr: "s.store_id",       alias: store_id}
+      - {expr: "s.store_name",     alias: store_name}
+      - {expr: "e.employee_id",    alias: employee_id}
+      - {expr: "oi.order_item_id", alias: order_item_id}
+      - {expr: "oi.quantity",      alias: quantity}
+      - {expr: "oi.unit_price",    alias: unit_price}
+      - {expr: "oi.line_amount",   alias: line_amount}
+      - {expr: "p.product_id",     alias: product_id}
+      - {expr: "p.product_name",   alias: product_name}
+      - {expr: "p.category",       alias: product_category}

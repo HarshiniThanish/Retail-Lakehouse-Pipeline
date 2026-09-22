@@ -1,0 +1,12 @@
+# Copy to profiles.yml (or point DBT_PROFILES_DIR at a secrets-managed copy).
+walmart_lakehouse:
+  target: dev
+  outputs:
+    dev:
+      type: databricks
+      catalog: "{{ env_var('DATABRICKS_CATALOG', 'Walmart') }}"
+      schema: bronze
+      host: "{{ env_var('DATABRICKS_HOST') }}"
+      http_path: "{{ env_var('DATABRICKS_HTTP_PATH') }}"
+      token: "{{ env_var('DATABRICKS_TOKEN') }}"
+      threads: 4

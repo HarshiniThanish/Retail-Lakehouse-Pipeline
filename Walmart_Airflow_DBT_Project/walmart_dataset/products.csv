@@ -1,0 +1,9 @@
+product_id,product_name,category,sub_category,brand,unit_price,is_active,updated_at
+9001,Great Value Whole Milk 1 Gal,Grocery,Dairy,Great Value,3.48,true,2026-01-05 07:00:00
+9002,Bananas (per lb),Grocery,Produce,Fresh,0.58,true,2026-01-05 07:05:00
+9003,Tide Laundry Detergent 100oz,Household,Laundry,Tide,12.97,true,2026-01-05 07:10:00
+9004,Apple AirPods (3rd Gen),Electronics,Audio,Apple,169.00,true,2026-01-05 07:15:00
+9005,Levi's 501 Jeans,Apparel,Menswear,Levi's,49.99,true,2026-01-05 07:20:00
+9006,Great Value White Bread,Grocery,Bakery,Great Value,1.24,true,2026-01-05 07:25:00
+9007,Hasbro Monopoly Board Game,Toys,Games,Hasbro,19.99,true,2026-01-05 07:30:00
+9008,KitchenAid Stand Mixer,Home,Small Appliances,KitchenAid,279.00,true,2026-01-05 07:35:00
