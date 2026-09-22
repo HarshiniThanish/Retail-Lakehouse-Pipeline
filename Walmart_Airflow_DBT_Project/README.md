@@ -1,4 +1,4 @@
-# 🛒 Walmart Lakehouse — Agentic Data Engineering Pipeline
+#  Walmart Lakehouse — Agentic Data Engineering Pipeline
 
 > An end-to-end, runnable **Lakehouse + Agentic Data Engineering** pipeline for simulated Walmart retail data — CDC ingestion, a metadata-driven Silver OBT, SCD Type 2 Gold dimensions, and full Airflow + Docker orchestration.
 
@@ -10,11 +10,11 @@
   <img alt="docker" src="https://img.shields.io/badge/Docker-Compose-blue">
 </p>
 
-Reference project: [`anshlambagit/Walmart_Airflow_DBT_Project`](https://github.com/anshlambagit/Walmart_Airflow_DBT_Project). This scaffold implements the same architecture end-to-end and is runnable locally out of the box: a **local Postgres container pre-loaded with sample Walmart data** stands in for the Ghost Postgres source, and every dbt model is written for the `dbt-databricks` adapter so you can point it at a real Databricks workspace whenever you're ready.
+Reference project: [`anshlambagit/Walmart_Airflow_DBT_Project`](https://github.com/anshlambagit/Walmart_Airflow_DBT_Project). 
 
 ---
 
-## 📖 Table of Contents
+##  Table of Contents
 
 - [Architecture](#-architecture)
 - [What's Actually Runnable Here](#-whats-actually-runnable-here)
@@ -29,7 +29,7 @@ Reference project: [`anshlambagit/Walmart_Airflow_DBT_Project`](https://github.c
 
 ---
 
-## 🏗️ Architecture
+##  Architecture
 
 ```
 ┌──────────────────────────────────────────────────────────────────────────┐
@@ -66,28 +66,9 @@ Reference project: [`anshlambagit/Walmart_Airflow_DBT_Project`](https://github.c
 └──────────────────────────────────────────────────────────────────────────┘
 ```
 
----
 
-## ✅ What's Actually Runnable Here
 
-| Piece | Status |
-|---|---|
-| Airflow DAG (`orchestrate.py`) with Databricks SDK polling | ✅ Full working code |
-| dbt project — sources, staging models, tests | ✅ Full working code (targets `dbt-databricks`) |
-| Metadata-driven Jinja OBT join engine | ✅ Full working code |
-| SCD Type 2 snapshots (all 5 dimensions) | ✅ Full working code |
-| `fact_orders` incremental fact table | ✅ Full working code |
-| Docker Compose stack (Airflow + local source Postgres) | ✅ Runnable locally |
-| Sample Walmart dataset (customers/stores/products/employees/orders/order_items/reviews) | ✅ Included, auto-seeded |
-| Bronze layer writes into real Delta tables | ⚙️ Requires your own Databricks workspace — `cdc_loader.py` has clearly marked stubs where the Delta `MERGE` call goes |
-| S3 Auto Loader for reviews | ⚙️ Requires your own AWS + Databricks credentials |
-| MCP agentic querying | ⚙️ Requires an MCP-capable client (VS Code/Claude Desktop) + the servers in `mcp/mcp_config.json` |
-
-In short: clone it, `docker compose up`, and the orchestration + dbt logic all run against the bundled sample data end-to-end on Postgres/dbt semantics. Swap the dbt target to Databricks and fill in the ingestion stubs to go fully cloud-native.
-
----
-
-## 📁 Project Structure
+##  Project Structure
 
 ```
 Walmart_Airflow_DBT_Project/
@@ -132,87 +113,10 @@ Walmart_Airflow_DBT_Project/
 
 ---
 
-## 🚀 Getting Started
 
-### Prerequisites
-- Docker & Docker Compose
-- (Optional, for cloud mode) a Databricks workspace with Unity Catalog, and an AWS S3 bucket
 
-### 1. Configure environment
 
-```bash
-cd airflow_dbt_project
-cp .env.example .env
-# fill in real values if you're pointing at Databricks/S3; the local
-# Postgres-only run works with the sample defaults already in .env.example
-```
-
-### 2. Launch the stack
-
-```bash
-docker compose up -d --build
-```
-
-This starts:
-- `source_db` — a Postgres instance auto-seeded from `walmart_dataset/*.csv` (your simulated Ghost DB)
-- `postgres` — Airflow's own metadata database
-- `redis`, `webserver`, `scheduler` — the Airflow stack itself
-
-### 3. Open Airflow
-
-Visit `http://localhost:8080` (default Airflow auth applies) and trigger the `orchestrate` DAG, or:
-
-```bash
-docker compose exec webserver airflow dags trigger orchestrate
-```
-
-### 4. Point dbt at Databricks (when ready)
-
-```bash
-cd airflow_dbt_project/dbt_project
-cp profiles.yml.example profiles.yml   # fill in DATABRICKS_HOST / TOKEN / HTTP_PATH
-dbt deps
-dbt run --select silver_t
-dbt test --select silver_t
-dbt run --select silver_b
-dbt snapshot
-dbt run --select fact_orders
-```
-
-### 5. Refresh the ad-hoc sandbox fork
-
-```bash
-python ingestion/db_fork.py create
-```
-
----
-
-## 🧩 The Metadata-Driven OBT (the interesting part)
-
-Instead of a static `obt.sql` full of hardcoded `JOIN`s, this project drives the whole join graph from a dictionary. Add a table to the OBT by editing `obt_config` in `dbt_project.yml` — never touch the SQL.
-
-```sql
--- models/silver_b/obt.sql
-{{ generate_obt(var('obt_config')) }}
-```
-
-The macro (`macros/generate_obt.sql`) walks the `base`, `joins`, and `columns` entries in the config and emits a full `SELECT … FROM … JOIN …` statement at compile time. This is what the source project calls its "metadata-driven One Big Table."
-
----
-
-## 🕰️ SCD Type 2 Dimensions
-
-Each dimension is a `dbt snapshot` using the `timestamp` strategy, tracking `dbt_valid_from`, `dbt_valid_to`, and `dbt_updated_at` automatically:
-
-```bash
-dbt snapshot
-```
-
-produces `dim_customers`, `dim_stores`, `dim_products`, `dim_employees`, and `dim_orders` — each preserving full attribute-change history.
-
----
-
-## 🤖 Agentic Ad-hoc Querying (MCP)
+##  Agentic Ad-hoc Querying (MCP)
 
 `mcp/mcp_config.json` wires up two MCP servers:
 
@@ -223,7 +127,7 @@ Load this config into VS Code's MCP settings (or Claude Desktop) to query your d
 
 ---
 
-## 🗺️ Pipeline DAG
+##  Pipeline DAG
 
 ```mermaid
 graph LR
@@ -240,7 +144,7 @@ graph LR
 
 ---
 
-## ☁️ Going to Production
+##  Going to Production
 
 1. Fill in `DATABRICKS_*` and `AWS_*` vars in `.env` and `profiles.yml`.
 2. Replace the stub comments in `ingestion/cdc_loader.py`'s `get_last_cursor()` and `upsert_to_bronze()` with real Delta Lake reads/`MERGE` calls (Databricks notebook or job context).
